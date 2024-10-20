@@ -88,7 +88,7 @@ while true; do
 done
 
 
-echo "it's creating now so kindly wait meanwhile like share and subscribe to quicklab"
+echo "it's creating now so kindly wait meanwhile like share and subscribe to Qwiklab_Explorers_TS"
 
 
 
@@ -135,7 +135,7 @@ while true; do
   fi
   
   # Wait for a short duration before checking agai
-  echo "it's creating now so kindly wait meanwhile like share and subscribe to quicklab"
+  echo "it's creating now so kindly wait meanwhile like share and subscribe to Qwiklab_Explorers_TS"
 
   sleep 10
 done
@@ -162,7 +162,7 @@ while true; do
   fi
   
   # Wait for a short duration before checking again
-  echo "it's creating now so kindly wait meanwhile like share and subscribe to quicklab"
+  echo "it's creating now so kindly wait meanwhile like share and subscribe to Qwiklab_Explorers_TS"
   sleep 10
 done
 
@@ -183,7 +183,7 @@ while true; do
   fi
   
   # Wait for a short duration before checking again
-  echo "it's creating now so kindly wait meanwhile like share and subscribe to quicklab"
+  echo "it's creating now so kindly wait meanwhile like share and subscribe to Qwiklab_Explorers_TS"
   sleep 10
 done
 
@@ -205,7 +205,7 @@ while true; do
   fi
   
   # Wait for a short duration before checking again
-  echo "it's creating now so kindly wait meanwhile like share and subscribe to quicklab"
+  echo "it's creating now so kindly wait meanwhile like share and subscribe to Qwiklab_Explorers_TS"
   sleep 10
 done
 
