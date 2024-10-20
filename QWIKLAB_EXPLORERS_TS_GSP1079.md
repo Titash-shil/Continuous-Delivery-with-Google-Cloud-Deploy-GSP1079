@@ -12,6 +12,7 @@ export PROJECT_ID=$(gcloud config get-value project)
 export REGION="${ZONE%-*}"
 gcloud config set compute/region $REGION
 
+
 gcloud services enable \
 container.googleapis.com \
 clouddeploy.googleapis.com \
@@ -21,9 +22,11 @@ clouddeploy.googleapis.com
 
 sleep 30
 
+
 gcloud container clusters create test --node-locations=$ZONE --num-nodes=1  --async
 gcloud container clusters create staging --node-locations=$ZONE --num-nodes=1  --async
 gcloud container clusters create prod --node-locations=$ZONE --num-nodes=1  --async
+
 
 gcloud container clusters list --format="csv(name,status)"
 
@@ -31,6 +34,7 @@ gcloud artifacts repositories create web-app \
 --description="Image registry for tutorial web app" \
 --repository-format=docker \
 --location=$REGION
+
 
 cd ~/
 git clone https://github.com/GoogleCloudPlatform/cloud-deploy-tutorials.git
@@ -52,13 +56,30 @@ $REGION-docker.pkg.dev/$PROJECT_ID/web-app \
 --include-tags \
 --format yaml
 
+
 gcloud config set deploy/region $REGION
 cp clouddeploy-config/delivery-pipeline.yaml.template clouddeploy-config/delivery-pipeline.yaml
 gcloud beta deploy apply --file=clouddeploy-config/delivery-pipeline.yaml
 
+
 gcloud beta deploy delivery-pipelines describe web-app
 
+
 while true; do
+  # Get the status of each cluster
+  cluster_statuses=$(gcloud container clusters list --format="csv(name,status)" | tail -n +2)
+
+  # Check if all clusters are in RUNNING state
+  all_running=true
+  while IFS=, read -r cluster_name cluster_status; do
+    if [[ "$cluster_status" != "RUNNING" ]]; then
+      all_running=false
+      break
+    fi
+  done <<< "$cluster_statuses"
+
+  if $all_running; then
+    echo "All clusters are in RUNNING state."
     break
   fi
 
@@ -66,7 +87,10 @@ while true; do
   sleep 10
 done
 
-echo "it's creating now please wait sometimes..."
+
+echo "it's creating now so kindly wait meanwhile like share and subscribe to quicklab"
+
+
 
 CONTEXTS=("test" "staging" "prod")
 for CONTEXT in ${CONTEXTS[@]}
@@ -79,6 +103,7 @@ for CONTEXT in ${CONTEXTS[@]}
 do
     kubectl --context ${CONTEXT} apply -f kubernetes-config/web-app-namespace.yaml
 done
+
 
 for CONTEXT in ${CONTEXTS[@]}
 do
@@ -93,9 +118,11 @@ gcloud beta deploy releases create web-app-001 \
 --build-artifacts web/artifacts.json \
 --source web/
 
+
 gcloud beta deploy rollouts list \
 --delivery-pipeline web-app \
 --release web-app-001
+
 
 # Wait for the rollout to complete
 while true; do
@@ -108,7 +135,7 @@ while true; do
   fi
   
   # Wait for a short duration before checking agai
-  echo "it's creating now please wait sometimes..."
+  echo "it's creating now so kindly wait meanwhile like share and subscribe to quicklab"
 
   sleep 10
 done
@@ -117,10 +144,12 @@ done
 kubectx test
 kubectl get all -n web-app
 
+
 gcloud beta deploy releases promote \
 --delivery-pipeline web-app \
 --release web-app-001 \
 --quiet
+
 
 # Wait for the rollout to complete
 while true; do
@@ -133,7 +162,7 @@ while true; do
   fi
   
   # Wait for a short duration before checking again
-  echo "it's creating now please wait sometimes..."
+  echo "it's creating now so kindly wait meanwhile like share and subscribe to quicklab"
   sleep 10
 done
 
@@ -154,14 +183,16 @@ while true; do
   fi
   
   # Wait for a short duration before checking again
-  echo "it's creating now please wait sometimes..."
+  echo "it's creating now so kindly wait meanwhile like share and subscribe to quicklab"
   sleep 10
 done
+
 
 gcloud beta deploy rollouts approve web-app-001-to-prod-0001 \
 --delivery-pipeline web-app \
 --release web-app-001 \
 --quiet
+
 
 # Wait for the rollout to complete
 while true; do
@@ -174,7 +205,7 @@ while true; do
   fi
   
   # Wait for a short duration before checking again
-  echo "it's creating now please wait sometimes..."
+  echo "it's creating now so kindly wait meanwhile like share and subscribe to quicklab"
   sleep 10
 done
 
